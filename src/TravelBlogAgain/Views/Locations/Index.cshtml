@@ -1,6 +1,21 @@
-﻿@{
+﻿@model IEnumerable<TravelBlogAgain.Models.Location>
+
+@{
     ViewData["Title"] = "Travel Blog";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Welcome to Indy's Travel Blog</h2>
+
+@foreach ( var location in Model)
+{
+    <h3>@Html.DisplayFor(locationItem => location.Name)</h3>
+    @foreach (var experience in location.Experiences)
+    {
+        <h5>@Html.DisplayFor(experienceItem => experience.Activity)</h5>
+
+    }
+
+}
+
+@Html.ActionLink("Create New Location", "Create")

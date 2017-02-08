@@ -13,8 +13,8 @@ namespace TravelBlogAgain.Models
         [Key]
         public int LocationId { get; set; }
         public string Name { get; set; }
-        public int Lat { get; set; }
-        public int Lon { get; set; }
+        public double Lat { get; set; }
+        public double Lon { get; set; }
         public virtual ICollection<Experience> Experiences { get; set; }
     }
 }
