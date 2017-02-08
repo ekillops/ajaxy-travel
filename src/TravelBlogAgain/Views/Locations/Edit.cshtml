@@ -2,17 +2,19 @@
 
 
 @{
-    ViewData["Title"] = "Location - Create";
+    ViewData["Title"] = "Location - Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create a New Location Entry</h2>
+<h2>Edit A Location Entry</h2>
 
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(model =>model.LocationId)
+
     <div class="form-group">
         @Html.LabelFor(model => model.Name)
-        @Html.EditorFor(model => model.Name)
+        <input class="form-control" @Html.EditorFor(model => model.Name)
     </div>
 
     <div class="form-group">
@@ -24,7 +26,7 @@
         @Html.LabelFor(model => model.Lon)
         @Html.EditorFor(model => model.Lon)
     </div>
-    <input type="submit" value="Create" class="btn btn-info" />
+    <input type="submit" value="Edit" class="btn btn-info" />
 }
 
 @Html.ActionLink("Back to Home Page", "Index")
