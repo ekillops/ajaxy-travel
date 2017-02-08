@@ -1,0 +1,15 @@
+﻿@model TravelBlogAgain.Models.Experience
+
+@{
+    ViewData["Title"] = "Experience Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@Html.DisplayFor(model => model.Activity)</h3>
+<p>@Html.DisplayFor(model => model.Description)</p>
+<h4>Companions: </h4>
+@foreach (var person in ViewBag.Persons)
+{
+    <p>@person.Person.Name</p>
+}
+

@@ -13,7 +13,7 @@
     <h6>@Html.ActionLink("Edit Location", "Edit", new { id = location.LocationId}) | @Html.ActionLink("Delete Location", "Delete", new { id = location.LocationId })</h6>
     @foreach (var experience in location.Experiences)
     {
-        <h4>@Html.DisplayFor(experienceItem => experience.Activity)</h4>
+        <h4>@Html.ActionLink(experience.Activity, "Details", "Experiences", new { id = experience.ExpId })</h4>
 
     }
 

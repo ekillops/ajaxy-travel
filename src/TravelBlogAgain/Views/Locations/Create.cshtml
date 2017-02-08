@@ -11,18 +11,18 @@
 @using (Html.BeginForm())
 {
     <div class="form-group">
-        @Html.LabelFor(model => model.Name)
-        @Html.EditorFor(model => model.Name)
+        <label>Name</label>
+        <input class="form-control" @Html.EditorFor(model => model.Name)
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Lat)
-        @Html.EditorFor(model => model.Lat)
+        <label>Latitude</label>
+        <input class="form-control" type="number"
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Lon)
-        @Html.EditorFor(model => model.Lon)
+        <label>Longitude</label>
+        <input class="form-control" type="number" @Html.EditorFor(model => model.Lon)
     </div>
     <input type="submit" value="Create" class="btn btn-info" />
 }
