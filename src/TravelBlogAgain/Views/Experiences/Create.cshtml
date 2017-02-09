@@ -18,6 +18,11 @@
     <label>Location</label>
     @Html.DropDownList("LocationId")
 
+    @foreach (var person in ViewBag.PersonList)
+    {
+        <input type="checkbox" name="experience_person" value=@person.PersonId />@person.Name
+    }
+
     <input type="submit" value="Create" class="btn btn-default" />
 }
 

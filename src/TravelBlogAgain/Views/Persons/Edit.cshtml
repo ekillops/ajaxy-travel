@@ -1,0 +1,43 @@
+﻿@model TravelBlogAgain.Models.Person
+
+
+@{
+    ViewData["Title"] = "Person - Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit A Location Entry</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.PersonId)
+
+    <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" @Html.EditorFor(model => model.Name)
+    </div>
+
+    <label>Adventure Rating</label>
+    <select id="AdventureRating" name="AdventureRating">
+        <option>5</option>
+        <option>4</option>
+        <option>3</option>
+        <option>2</option>
+        <option>1</option>
+    </select><br />
+
+    <label>Check experiences to remove this person from them:</label><br />
+    @foreach (var exp_per in ViewBag.linkedExperiences)
+    {
+        <input type="checkbox" name="linked_experience_person" value=@exp_per.Experience_PersonId />@exp_per.Experience.Activity<br />
+    }
+    <label>Check experiences to add this person to them:</label><br />
+    @foreach (var exp_per in ViewBag.unlinkedExperiences)
+    {
+        <input type="checkbox" name="unlinked_experience_person" value=@exp_per.ExperienceId />@exp_per.Experience.Activity<br />
+    }
+
+    <input type="submit" value="Edit" class="btn btn-info" />
+}
+
+@Html.ActionLink("Back to Detail Page", "Detail", new { id = Model.PersonId })

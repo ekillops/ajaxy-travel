@@ -29,12 +29,19 @@ namespace TravelBlogAgain.Controllers
         public IActionResult Create()
         {
             ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name");
+            ViewBag.PersonList = db.Persons;
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Experience experience)
+        public IActionResult Create(Experience experience, int[] experience_person)
         {
             db.Experiences.Add(experience);
+            db.SaveChanges();
+            for (int i = 0; i < experience_person.Length; i++)
+            {
+                Experience_Person newJoin = new Experience_Person(experience.ExpId, experience_person[i] );
+                db.Experience_Person.Add(newJoin);
+            }
             db.SaveChanges();
 
             return RedirectToAction("Index", "Locations");

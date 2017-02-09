@@ -11,4 +11,7 @@
 @foreach (var experience in ViewBag.Experiences)
 {
     <p>@experience.Experience.Activity</p>
+
 }
+<h4>@Html.ActionLink("Add new Person", "Create")</h4>
+<h4>@Html.ActionLink("Edit Person", "Edit", new { id = Model.PersonId })</h4>

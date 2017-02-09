@@ -21,5 +21,10 @@ namespace TravelBlogAgain.Models
             ExperienceId = expId;
             PersonId = personId;
         }
+
+        public Experience_Person()
+        {
+
+        }
     }
 }

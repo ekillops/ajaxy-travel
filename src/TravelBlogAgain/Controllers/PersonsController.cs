@@ -45,5 +45,51 @@ namespace TravelBlogAgain.Controllers
             db.SaveChanges();
             return RedirectToAction("Index", "Locations");
         }
+
+        public IActionResult Edit(int id)
+        {
+            List<Experience> thisPersonExperiences = new List<Experience> { };
+
+            List<Experience> unlinkedExperienceList = new List<Experience> { };
+
+            var thisPerson = db.Persons.FirstOrDefault(persons => persons.PersonId == id);
+
+            var thisPersonJoins = db.Experience_Person
+                .Where(exp_per => exp_per.PersonId == id);
+
+            foreach (var join in thisPersonJoins)
+            {
+                thisPersonExperiences.Add(db.Experiences.Where(exp => exp.ExpId == join.ExperienceId))
+            }
+            ViewBag.linkedExperiences = db.Experiences
+                .Where(exp => exp.ExpId == id);
+
+            
+            ViewBag.unlinkedExperiences = db.Experiences.ToList()
+                .Except(thisPersonExperiences.Experience)
+                .ToList(); 
+                       
+            return View(thisPerson);
+
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Person person, int[] linked_experience_person, int[] unlinked_experience_person)
+        {
+            db.Entry(person).State = EntityState.Modified;
+            db.SaveChanges();
+            for (int i = 0; i < linked_experience_person.Length; i++)
+            {
+                var thisExpPer = db.Experience_Person.FirstOrDefault(expper => expper.Experience_PersonId == linked_experience_person[i]);
+                db.Experience_Person.Remove(thisExpPer);
+            }
+            for (int i = 0; i < unlinked_experience_person.Length; i++)
+            {
+                Experience_Person newJoin = new Experience_Person(unlinked_experience_person[i], person.PersonId);
+                db.Experience_Person.Add(newJoin);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = person.PersonId });
+        }
     }
 }
