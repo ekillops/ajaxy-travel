@@ -31,7 +31,7 @@ namespace TravelBlogAgain.Controllers
             ViewBag.ExperiencesList = db.Experiences;
             return View();
         }
-
+      
         [HttpPost]
         public IActionResult Create(Person person, int[] experience_person)
         {
