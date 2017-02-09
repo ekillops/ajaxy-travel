@@ -1,0 +1,28 @@
+﻿@model TravelBlogAgain.Models.Person
+@{
+    ViewData["Title"] = "Experience Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create a new Person</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    <label>Name</label>
+    @Html.EditorFor(model => model.Name)
+
+    <label>Adventure Rating</label>
+    <select id="AdventureRating" name="AdventureRating">
+        <option>5</option>
+        <option>4</option>
+        <option>3</option>
+        <option>2</option>
+        <option>1</option>
+    </select>
+
+
+    <input type="submit" value="Create" class="btn btn-default" />
+}
+
+@Html.ActionLink("Back Home", "Index", "Locations")

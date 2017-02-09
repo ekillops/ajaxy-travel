@@ -32,6 +32,7 @@ namespace TravelBlogAgain.Controllers
             return View();
         }
 
+        [HttpPost]
         public IActionResult Create(Person person)
         {
             db.Persons.Add(person);
