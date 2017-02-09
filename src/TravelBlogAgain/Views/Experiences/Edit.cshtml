@@ -25,6 +25,17 @@
         <label>Location</label>
         <select class="form-control" @Html.DropDownList("LocationId")
     </div>
+
+    <label>Check people to remove them from this experience:</label><br />
+    @foreach (var exp_per in ViewBag.joinList)
+    {
+        <input type="checkbox" name="linked_person" value=@exp_per.Experience_PersonId />@exp_per.Person.Name<br />
+    }
+    <label>Check people to add them to this experience:</label><br />
+    @foreach (var person in ViewBag.unlinkList)
+    {
+        <input type="checkbox" name="unlinked_person" value=@person.PersonId />@person.Name<br />
+    }
     <input type="submit" value="Edit" class="btn btn-info" />
 }
 

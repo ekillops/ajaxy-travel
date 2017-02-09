@@ -51,15 +51,49 @@ namespace TravelBlogAgain.Controllers
         {
             var thisExperience = db.Experiences.FirstOrDefault(experiences => experiences.ExpId == id);
             ViewBag.LocationId = new SelectList(db.Locations, "LocationId", "Name");
+
+            var allPersons = db.Persons.ToList();
+            List<Person> personList = new List<Person> { };
+
+            var thisJoins = db.Experience_Person
+                .Include(join => join.Person)
+                .Where(exp_per => exp_per.ExperienceId == id)
+                .ToList();
+
+            foreach (var join in thisJoins)
+            {
+                var person = db.Persons.FirstOrDefault(p => p.PersonId == join.PersonId);
+                personList.Add(person);
+            }
+
+
+            var unlinkedPersons = db.Persons.ToList().Except(personList).ToList();
+
+            ViewBag.joinList = thisJoins;
+            ViewBag.unlinkList = unlinkedPersons;
             return View(thisExperience);
 
         }
 
         [HttpPost]
-        public IActionResult Edit(Experience experience)
+        public IActionResult Edit(Experience experience, int[] linked_person, int[] unlinked_person)
         {
             db.Entry(experience).State = EntityState.Modified;
             db.SaveChanges();
+
+            for (int i = 0; i < linked_person.Length; i++)
+            {
+                var thisExpPer = db.Experience_Person.FirstOrDefault(expper => expper.Experience_PersonId == linked_person[i]);
+                db.Experience_Person.Remove(thisExpPer);
+            }
+
+            for (int i = 0; i < unlinked_person.Length; i++)
+            {
+                Experience_Person newJoin = new Experience_Person(experience.ExpId, unlinked_person[i]);
+                db.Experience_Person.Add(newJoin);
+            }
+            db.SaveChanges();
+
             return RedirectToAction("Details", new { id = experience.ExpId });
         }
         public IActionResult Delete(int id)
