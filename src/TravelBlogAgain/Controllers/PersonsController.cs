@@ -91,5 +91,20 @@ namespace TravelBlogAgain.Controllers
             db.SaveChanges();
             return RedirectToAction("Details", new { id = person.PersonId });
         }
+        public IActionResult Delete(int id)
+        {
+            var thisPerson = db.Persons
+                .FirstOrDefault(p => p.PersonId == id);
+            return View(thisPerson);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var thisPerson = db.Persons.FirstOrDefault(ps => ps.PersonId == id);
+            db.Persons.Remove(thisPerson);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Locations");
+        }
     }
 }
