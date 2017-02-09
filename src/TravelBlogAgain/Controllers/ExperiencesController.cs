@@ -55,5 +55,21 @@ namespace TravelBlogAgain.Controllers
             db.SaveChanges();
             return RedirectToAction("Details", new { id = experience.ExpId });
         }
+        public IActionResult Delete(int id)
+        {
+            var thisExperience = db.Experiences
+                .Include(exp => exp.Location)
+                .FirstOrDefault(exps => exps.ExpId == id);
+            return View(thisExperience);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var thisExp = db.Experiences.FirstOrDefault(exps => exps.ExpId == id);
+            db.Experiences.Remove(thisExp);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Locations");
+        }
     }
 }

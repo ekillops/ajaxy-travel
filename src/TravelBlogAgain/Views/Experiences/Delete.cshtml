@@ -1,0 +1,20 @@
+﻿@model TravelBlogAgain.Models.Experience
+
+@{
+    ViewData["Title"] = "Delete Experience";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Are you sure you want to delete this experience?</h2>
+
+@Html.DisplayNameFor(model => model.Location): @Html.DisplayFor(model => model.Location.Name)
+<br />
+@Html.DisplayNameFor(model => model.Activity): @Html.DisplayFor(model => model.Activity)
+<br />
+@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)
+<br />
+@using (Html.BeginForm())
+{
+    <input type="submit" value="Delete" class="btn btn-danger" />
+}
+<p>@Html.ActionLink("Back to Experience", "Details", new { id = Model.ExpId })</p>

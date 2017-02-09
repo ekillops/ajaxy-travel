@@ -10,8 +10,9 @@
 <h4>Companions: </h4>
 @foreach (var person in ViewBag.Persons)
 {
-    <p>@person.Person.Name</p>
+    <h4>@Html.ActionLink((string)person.Person.Name, "Details", "Persons", new { id = person.PersonId })</h4>
 }
 
-@Html.ActionLink("Edit this Experience", "Edit", new { id = Model.ExpId })
+@Html.ActionLink("Edit this Experience", "Edit", new { id = Model.ExpId })<br />
+@Html.ActionLink("Delete this Experience", "Delete", new { id = Model.ExpId })
 
