@@ -15,8 +15,8 @@ namespace TravelBlogAgain.Migrations
                 {
                     LocationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Lat = table.Column<int>(nullable: false),
-                    Lon = table.Column<int>(nullable: false),
+                    Lat = table.Column<double>(nullable: false),
+                    Lon = table.Column<double>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

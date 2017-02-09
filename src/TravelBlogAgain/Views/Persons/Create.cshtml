@@ -21,6 +21,10 @@
         <option>1</option>
     </select>
 
+    @foreach (var experience in ViewBag.ExperiencesList)
+    {
+        <input type="checkbox" name="experience_person" value=@experience.ExpId />@experience.Activity
+    }
 
     <input type="submit" value="Create" class="btn btn-default" />
 }

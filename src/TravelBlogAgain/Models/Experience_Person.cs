@@ -16,5 +16,10 @@ namespace TravelBlogAgain.Models
         public int PersonId { get; set; }
         public virtual Experience Experience { get; set; }
         public virtual Person Person { get; set; }
+        public Experience_Person(int expId, int personId)
+        {
+            ExperienceId = expId;
+            PersonId = personId;
+        }
     }
 }
