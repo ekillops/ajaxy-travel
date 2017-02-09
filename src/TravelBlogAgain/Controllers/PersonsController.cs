@@ -48,33 +48,33 @@ namespace TravelBlogAgain.Controllers
 
         public IActionResult Edit(int id)
         {
-            List<Experience> thisPersonExperiences = new List<Experience> { };
-
-            List<Experience> unlinkedExperienceList = new List<Experience> { };
-
             var thisPerson = db.Persons.FirstOrDefault(persons => persons.PersonId == id);
+            var allExperiences = db.Experiences.ToList();
+            List<Experience> expList = new List<Experience> { };
 
             var thisPersonJoins = db.Experience_Person
-                .Where(exp_per => exp_per.PersonId == id);
+                .Include(join => join.Experience)
+                .Where(exp_per => exp_per.PersonId == id)
+                .ToList();
 
             foreach (var join in thisPersonJoins)
             {
-                thisPersonExperiences.Add(db.Experiences.Where(exp => exp.ExpId == join.ExperienceId))
+                var exp = db.Experiences.FirstOrDefault(ex => ex.ExpId == join.ExperienceId);
+                expList.Add(exp);
             }
-            ViewBag.linkedExperiences = db.Experiences
-                .Where(exp => exp.ExpId == id);
-
             
-            ViewBag.unlinkedExperiences = db.Experiences.ToList()
-                .Except(thisPersonExperiences.Experience)
-                .ToList(); 
+
+            var unlinkedExp = db.Experiences.ToList().Except(expList).ToList();
+
+            ViewBag.joinList = thisPersonJoins;
+            ViewBag.unlinkList = unlinkedExp;
                        
             return View(thisPerson);
 
         }
 
         [HttpPost]
-        public IActionResult Edit(Person person, int[] linked_experience_person, int[] unlinked_experience_person)
+        public IActionResult Edit(Person person, int[] linked_experience_person, int[] unlinked_experience)
         {
             db.Entry(person).State = EntityState.Modified;
             db.SaveChanges();
@@ -83,9 +83,9 @@ namespace TravelBlogAgain.Controllers
                 var thisExpPer = db.Experience_Person.FirstOrDefault(expper => expper.Experience_PersonId == linked_experience_person[i]);
                 db.Experience_Person.Remove(thisExpPer);
             }
-            for (int i = 0; i < unlinked_experience_person.Length; i++)
+            for (int i = 0; i < unlinked_experience.Length; i++)
             {
-                Experience_Person newJoin = new Experience_Person(unlinked_experience_person[i], person.PersonId);
+                Experience_Person newJoin = new Experience_Person(unlinked_experience[i], person.PersonId);
                 db.Experience_Person.Add(newJoin);
             }
             db.SaveChanges();
