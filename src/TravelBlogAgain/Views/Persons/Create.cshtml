@@ -1,6 +1,6 @@
 ﻿@model TravelBlogAgain.Models.Person
 @{
-    ViewData["Title"] = "Experience Details";
+    ViewData["Title"] = "Create Person";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,24 +9,30 @@
 
 @using (Html.BeginForm())
 {
-    <label>Name</label>
-    @Html.EditorFor(model => model.Name)
+    <div class="form-group">
+        <label>Name</label>
+        @Html.EditorFor(model => model.Name)
+    </div>
 
-    <label>Adventure Rating</label>
-    <select id="AdventureRating" name="AdventureRating">
-        <option>5</option>
-        <option>4</option>
-        <option>3</option>
-        <option>2</option>
-        <option>1</option>
-    </select>
-
-    @foreach (var experience in ViewBag.ExperiencesList)
-    {
-        <input type="checkbox" name="experience_person" value=@experience.ExpId />@experience.Activity
+    <div class="form-group">
+        <label>Adventure Rating</label>
+        <select id="AdventureRating" name="AdventureRating">
+            <option>5</option>
+            <option>4</option>
+            <option>3</option>
+            <option>2</option>
+            <option>1</option>
+        </select>
+    </div>
+    
+        <label>Check activities this person attended.</label><br />
+        @foreach (var experience in ViewBag.ExperiencesList)
+        {
+            <input type="checkbox" name="experience_person" value=@experience.ExpId />@experience.Activity<br />
+        }
+    
+   
+    <input type="submit" value="Create" class="btn btn-default" />
     }
 
-    <input type="submit" value="Create" class="btn btn-default" />
-}
-
-@Html.ActionLink("Back Home", "Index", "Locations")
+    @Html.ActionLink("Back Home", "Index", "Locations")
