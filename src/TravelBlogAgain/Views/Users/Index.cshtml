@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Login";
+}
+
+@using System.Security.Claims
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#clicky").click(function () {
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Action("GiveHtml")',
+                success: function (result) {
+                    var pResult = '<h4 class="text-danger">' + result + '</h4>';
+                    $("#output").html(pResult);
+                }
+            });
+        });
+    });
+</script>
+
+<h2>Authentication with Identity</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>Hello @User.Identity.Name</p>
+}
+else
+{
+    <p>Unauthenticated...</p>
+}
+
+@Html.ActionLink("Login", "Login")<br />
+@Html.ActionLink("Sign up", "Signup")
+
+
+<div id="clicky" class="btn btn-default">
+    Click Me!
+</div>
+<div id="output"></div>

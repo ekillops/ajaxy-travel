@@ -6,17 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TravelBlogAgain.Models;
-
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace TravelBlogAgain.Controllers
 {
+
     public class LocationsController : Controller
     {
-        private TravelBlogAgainContext db = new TravelBlogAgainContext();
+        private readonly TravelBlogAgainContext _db;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public LocationsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, TravelBlogAgainContext db)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _db = db;
+        }
         public IActionResult Index()
         {
-            return View(db.Locations
+            return View(_db.Locations
                 .Include(locations => locations.Experiences)
                 .ToList());
         }
@@ -29,33 +39,33 @@ namespace TravelBlogAgain.Controllers
         [HttpPost]
         public IActionResult Create(Location location)
         {
-            db.Locations.Add(location);
-            db.SaveChanges();
+            _db.Locations.Add(location);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
         public IActionResult Edit(int id)
         {
-            var thisLocation = db.Locations.FirstOrDefault(locations => locations.LocationId == id);
+            var thisLocation = _db.Locations.FirstOrDefault(locations => locations.LocationId == id);
             return View(thisLocation);
         }
         [HttpPost]
         public IActionResult Edit(Location location)
         {
-            db.Entry(location).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(location).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
         public IActionResult Delete(int id)
         {
-            var thisLocation = db.Locations.FirstOrDefault(locations => locations.LocationId == id);
+            var thisLocation = _db.Locations.FirstOrDefault(locations => locations.LocationId == id);
             return View(thisLocation);
         }
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
-            var thisLocation = db.Locations.FirstOrDefault(locations => locations.LocationId == id);
-            db.Locations.Remove(thisLocation);
-            db.SaveChanges();
+            var thisLocation = _db.Locations.FirstOrDefault(locations => locations.LocationId == id);
+            _db.Locations.Remove(thisLocation);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
     }

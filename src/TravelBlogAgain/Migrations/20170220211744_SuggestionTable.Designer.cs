@@ -8,8 +8,8 @@ using TravelBlogAgain.Models;
 namespace TravelBlogAgain.Migrations
 {
     [DbContext(typeof(TravelBlogAgainContext))]
-    [Migration("20170208180154_Initial")]
-    partial class Initial
+    [Migration("20170220211744_SuggestionTable")]
+    partial class SuggestionTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,9 +58,9 @@ namespace TravelBlogAgain.Migrations
                     b.Property<int>("LocationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Lat");
+                    b.Property<double>("Lat");
 
-                    b.Property<int>("Lon");
+                    b.Property<double>("Lon");
 
                     b.Property<string>("Name");
 
@@ -83,6 +83,20 @@ namespace TravelBlogAgain.Migrations
                     b.ToTable("Persons");
                 });
 
+            modelBuilder.Entity("TravelBlogAgain.Models.Suggestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("LocationId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Suggestions");
+                });
+
             modelBuilder.Entity("TravelBlogAgain.Models.Experience", b =>
                 {
                     b.HasOne("TravelBlogAgain.Models.Location", "Location")
@@ -102,6 +116,13 @@ namespace TravelBlogAgain.Migrations
                         .WithMany("Experience_Persons")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TravelBlogAgain.Models.Suggestion", b =>
+                {
+                    b.HasOne("TravelBlogAgain.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
                 });
         }
     }
